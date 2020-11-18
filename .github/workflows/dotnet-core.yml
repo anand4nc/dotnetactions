@@ -40,7 +40,7 @@ jobs:
         # The key of the SonarQube project
          sonarProjectKey: anand4nc_dotnetaction
         # The name of the SonarQube project
-         sonarProjectName:  donetactions
+         sonarProjectName:  dotnetactions
         # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
          sonarOrganization: anand4nc
       - name: Build and analyze
