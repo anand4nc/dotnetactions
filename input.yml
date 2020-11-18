@@ -23,4 +23,4 @@ inputs:
   sonarHostname:
     description: "The SonarQube server URL. For SonarCloud, skip this setting."
     default: "https://sonarcloud.io"
-    required: false
+    required: true
