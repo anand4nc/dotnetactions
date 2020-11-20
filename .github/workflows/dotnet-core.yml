@@ -27,27 +27,18 @@ jobs:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
-      - name: Install SonarCloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
-        run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-      - name: SonarScanner for .NET 5 with pull request decoration support
-        uses: highbyte/sonarscan-dotnet@2.0-beta
+      - name: Sonarscanner for dotnet
+        uses: Secbyte/dotnet-sonarscanner@v2.3
         with:
-        # The key of the SonarQube project
-         sonarProjectKey: anand4nc_dotnetaction
-        # The name of the SonarQube project
-         sonarProjectName:  dotnetactions
-        # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
-         sonarOrganization: anand4nc
-      - name: Build and analyze
+          buildCommand: dotnet build .
+          testCommand: dotnet test .
+          projectKey: anand4nc_donetactions
+          projectName: donetactions
+          sonarOrganisation: anand4nc
+          beginArguments: >
+              /d:sonar.verbose="true"
+              /d:sonar.cs.opencover.reportsPaths='"/path/to/coverage.xml","/path/to/coverage.2.xml"'
+              /d:sonar.coverage.exclusions='"**/*.cs","**/*.md"'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        #shell: powershell
-        run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"anand4nc_dotnetactions" /o:"anand4nc" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          <your clean build command>
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }
