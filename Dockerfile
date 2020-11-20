@@ -31,7 +31,7 @@ RUN dotnet tool install --global dotnet-sonarscanner --version 4.5.0
 # Add global tools folder to PATH
 ENV PATH="${PATH}:/root/.dotnet/tools"
 # Get required packages for sonar scanner
-RUN apt-get update && apt-get -y install curl bash unzip yarn bzip2 vim
+RUN apt-get update && apt-get -y install curl bash unzip yarn bzip2
 WORKDIR /root
 ENV LATEST='sonar-scanner-cli-3.3.0.1492-linux.zip'
 # Get & install sonar scanner
