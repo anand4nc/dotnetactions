@@ -1,0 +1,18 @@
+- name: SonarScanner for .NET 5 with pull request decoration support
+      uses: highbyte/sonarscan-dotnet@2.0
+      with:
+        # The key of the SonarQube project
+        sonarProjectKey: anand4nc_dotnetactions
+        # The name of the SonarQube project
+        sonarProjectName:  dotnetactions
+        # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
+        sonarOrganization: anand4nc_
+        # Optional command arguments to dotnet build
+        dotnetBuildArguments: ./src
+        # Optional command arguments to dotnet test
+        dotnetTestArguments: ./src --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        # Optional extra command arguments the the SonarScanner 'begin' command
+        sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
+ env:
+    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
